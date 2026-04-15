@@ -7,7 +7,8 @@ const postsRouter = require("./routes/posts");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const publicDir = path.join(__dirname, "public");
+
+const frontendDir = path.join(__dirname, "frontend", "dist");
 
 async function connectToDatabase() {
   if (!process.env.MONGODB_URI) {
@@ -27,11 +28,14 @@ async function connectToDatabase() {
   }
 }
 
-app.locals.publicDir = publicDir;
 app.use(express.json());
-app.use(express.static(publicDir));
-
 app.use("/api/posts", postsRouter);
+
+app.use(express.static(frontendDir));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontendDir, "index.html"));
+});
 
 connectToDatabase().then(() => {
   app.listen(PORT, () => {
