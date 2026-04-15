@@ -8,7 +8,7 @@ const postsRouter = require("./routes/posts");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const frontendDir = path.join(__dirname, "frontend", "dist");
+const frontendDir = path.join(__dirname, "..", "frontend", "dist");
 
 async function connectToDatabase() {
   if (!process.env.MONGODB_URI) {
